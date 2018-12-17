@@ -373,9 +373,6 @@ export default class Relation {
             }
         })
     }
-    // public find(){
-    //     return this._model.find()
-    // }
     public async del() {
         return await this._model.del();
     }
