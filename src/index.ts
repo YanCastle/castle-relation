@@ -39,7 +39,7 @@ export function R(ctx: any, name: string, force: boolean = false): Relation {
     const Relations: any = {};
     if (!_.isObject(Relations[name])) {
         try {
-            let rp = resolve(join(ctx.config.AppPath, 'relation', name))
+            let rp = resolve(join(ctx.config.getAppPath(), 'relation', name))
             var r = require(rp).default;
             if (r) {
                 Relations[name] = new r(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name));
@@ -402,3 +402,4 @@ export default class Relation {
         })
     }
 }
+
