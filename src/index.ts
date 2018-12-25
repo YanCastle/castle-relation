@@ -344,10 +344,7 @@ export default class Relation {
             return [[], 0];
         }
         var PKs: any = array_columns(d.rows, this._pk);
-        return Promise.all([
-            this.objects(PKs),
-            d.count
-        ]);
+        return { rows: await this.objects(PKs), count: d.count }
     }
     public order(order: string) {
         this._model.order(order)
