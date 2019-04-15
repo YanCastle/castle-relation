@@ -1,5 +1,5 @@
 {
-  "name": "castle-relation",
+  "name": "@ctsy/relation",
   "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
@@ -30,6 +30,7 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@types/sequelize": "^4.27.47",
     "@types/lodash": "^4.14.119"
   }
 }

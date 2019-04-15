@@ -2,6 +2,9 @@ import Model from 'castle-model'
 import * as _ from 'lodash'
 import { array_columns } from 'castle-function';
 import { resolve, join } from 'path';
+/**
+ * 关系配置
+ */
 export class RelationConfiger {
     name: string = ''
     table: string = ''
@@ -177,7 +180,7 @@ export default class Relation {
     }
     public eval(w: any) {
         if (w instanceof Function) {
-            return w(this._ctx);
+            return w.apply(this, [this._ctx]);
         } else {
             return w;
         }
