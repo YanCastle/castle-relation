@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@ctsy/model@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-1.0.15.tgz#8b81c471e2773905fc128394a9a0fcd15239e983"
+  integrity sha512-vjjouX+qHGcQFzw/rRj9PXkxDEt1WsZuAH4217f2s+ph+wQH9tax3PyMCzkSuQWyVQEpfLgqp/SGVz/FzpYJSA==
+  dependencies:
+    lodash "^4.17.11"
+    sequelize "^4.41.2"
+
 "@types/bluebird@*":
   version "3.5.26"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.26.tgz#a38c438ae84fa02431d6892edf86e46edcbca291"

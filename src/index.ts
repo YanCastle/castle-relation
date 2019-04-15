@@ -1,4 +1,4 @@
-import Model from 'castle-model'
+import Model from '@ctsy/model'
 import * as _ from 'lodash'
 import { array_columns } from 'castle-function';
 import { resolve, join } from 'path';
