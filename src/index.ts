@@ -1,4 +1,4 @@
-import Model from '@ctsy/model'
+import Model, { M } from '@ctsy/model'
 import * as _ from 'lodash'
 import { array_columns } from 'castle-function';
 import { resolve, join } from 'path';
@@ -38,19 +38,19 @@ export class RelationConfiger {
 * @returns Relation
 * @constructor
 */
-export function R(ctx: any, name: string, force: boolean = false): Relation {
+export function R(ctx: any, name: string,prefix:string=""): Relation {
     const Relations: any = {};
     if (!_.isObject(Relations[name])) {
         try {
             let rp = resolve(join(ctx.config.getAppPath(), 'relation', name))
             var r = require(rp).default;
             if (r) {
-                Relations[name] = new r(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name));
+                Relations[name] = new r(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name),prefix);
             } else {
-                Relations[name] = new Relation(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name));
+                Relations[name] = new Relation(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name), prefix);
             }
         } catch (e) {
-            Relations[name] = new Relation(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name));
+            Relations[name] = new Relation(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name), prefix);
         }
     }
     return Relations[name];
@@ -76,7 +76,7 @@ export default class Relation {
      * @param Fields 字段列表
      * @param PK 主键
      */
-    public constructor(ctx: any, Table: string, Fields: string | Array<string> = "", PK = "") {
+    public constructor(ctx: any, Table: string, Fields: string | Array<string> = "", PK = "",prefix:string="") {
         this._table = Table;
         this._ctx = ctx;
         let _fields = [];
@@ -91,7 +91,7 @@ export default class Relation {
         }
         this._fields = _fields;
         this._pk = PK;
-        this._model = new Model(ctx, Table);
+        this._model = M(ctx, Table,prefix);
     }
 
     /**

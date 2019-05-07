@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ctsy/model@^1.0.15":
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-1.0.15.tgz#8b81c471e2773905fc128394a9a0fcd15239e983"
-  integrity sha512-vjjouX+qHGcQFzw/rRj9PXkxDEt1WsZuAH4217f2s+ph+wQH9tax3PyMCzkSuQWyVQEpfLgqp/SGVz/FzpYJSA==
+"@ctsy/model@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-1.0.16.tgz#dcfd41c769ac6be35f382ef27a0dbcdd78e1a08d"
+  integrity sha512-Y4O7kll+ajEOjrIorroMP8pe04ioIRRXWTPCEmwgcl6ztoh3U1AJbQP63jILlEatYuwX8y1ur5zTQeyysUV+NQ==
   dependencies:
     lodash "^4.17.11"
     sequelize "^4.41.2"
@@ -68,14 +68,6 @@ castle-function@^1.0.1:
   integrity sha512-q9HYl6R4p/XydWhyVns1L0+nbI/MiBiixIowUkBgulrbrzlK+5brghp7uMHdJ8N5tZGVYjzEdxdvbD/z73MIrg==
   dependencies:
     lodash "^4.17.11"
-
-castle-model@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/castle-model/-/castle-model-1.0.1.tgz#24aad7372aa2d6876bcd8e06513555740ba3e643"
-  integrity sha512-QNEzOceptcgw3ZJ7PVoE8pOAzsuAysvGF8QwOcfly0l7UQVUboWygGbjK2AO5ZDNhGMc2TudwYWNC5P07Mva/Q==
-  dependencies:
-    lodash "^4.17.11"
-    sequelize "^4.41.2"
 
 cls-bluebird@^2.1.0:
   version "2.1.0"
