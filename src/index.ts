@@ -38,14 +38,14 @@ export class RelationConfiger {
 * @returns Relation
 * @constructor
 */
-export function R(ctx: any, name: string,prefix:string=""): Relation {
+export function R(ctx: any, name: string, prefix: string = ""): Relation {
     const Relations: any = {};
     if (!_.isObject(Relations[name])) {
         try {
-            let rp = resolve(join(ctx.config.getAppPath(), 'relation', name))
+            let rp = resolve(join(ctx.config.getLibPath(), 'relation', name))
             var r = require(rp).default;
             if (r) {
-                Relations[name] = new r(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name),prefix);
+                Relations[name] = new r(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name), prefix);
             } else {
                 Relations[name] = new Relation(ctx, name, ctx.config.getDbTableFields(name), ctx.config.getDbTablePK(name), prefix);
             }
@@ -76,7 +76,7 @@ export default class Relation {
      * @param Fields 字段列表
      * @param PK 主键
      */
-    public constructor(ctx: any, Table: string, Fields: string | Array<string> = "", PK = "",prefix:string="") {
+    public constructor(ctx: any, Table: string, Fields: string | Array<string> = "", PK = "", prefix: string = "") {
         this._table = Table;
         this._ctx = ctx;
         let _fields = [];
@@ -91,7 +91,7 @@ export default class Relation {
         }
         this._fields = _fields;
         this._pk = PK;
-        this._model = M(ctx, Table,prefix);
+        this._model = M(ctx, Table, prefix);
     }
 
     /**
