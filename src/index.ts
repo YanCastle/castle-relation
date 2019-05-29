@@ -70,6 +70,7 @@ export default class Relation {
     protected _controller: any;
     protected _foreach: any = [];
     protected _ctx: any = {};
+    prefix: string = ""
     /**
      *
      * @param Table 表名
@@ -92,6 +93,7 @@ export default class Relation {
         this._fields = _fields;
         this._pk = PK;
         this._model = M(ctx, Table, prefix);
+        this.prefix = prefix;
     }
 
     /**
@@ -210,15 +212,14 @@ export default class Relation {
                         try {
                             v = v(data)
                         } catch (error) {
-
                         }
                     }
                     if (v.relation instanceof Relation) {
                         Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else if (!_.isString(v.relation)) {
-                        Qs.push(new Model(this._ctx, v.table).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
+                        Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else {
-                        let r = new Relation(this._ctx, v.relation);
+                        let r = new Relation(this._ctx, v.relation, '', '', this.prefix);
                         if (r instanceof Relation)
                             Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     }
@@ -234,9 +235,9 @@ export default class Relation {
                     if (v.relation instanceof Relation) {
                         Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else if (!_.isString(v.relation)) {
-                        Qs.push(new Model(this._ctx, v.table).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
+                        Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else {
-                        let r = new Relation(this._ctx, v.relation);
+                        let r = new Relation(this._ctx, v.relation, '', '', this.prefix);
                         if (r instanceof Relation)
                             Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     }
@@ -252,9 +253,9 @@ export default class Relation {
                     if (v.relation instanceof Relation) {
                         Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else if (!_.isString(v.relation)) {
-                        Qs.push(new Model(this._ctx, v.table).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
+                        Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else {
-                        let r = new Relation(this._ctx, v.relation);
+                        let r = new Relation(this._ctx, v.relation, '', '', this.prefix);
                         if (r instanceof Relation)
                             Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     }
