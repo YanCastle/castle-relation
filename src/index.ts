@@ -6,12 +6,36 @@ import { resolve, join } from 'path';
  * 关系配置
  */
 export class RelationConfiger {
+    /**
+     * 属性名称/ObjectPropertyName
+     */
     name: string = ''
+    /**
+     * 表名/TableName
+     */
     table: string = ''
+    /**
+     * 字段列表，
+     * @description 支持字符串数组，函数或以英文逗号分隔的字符串
+     */
     fields: string[] | Function | string = []
+    /**
+     * 主表关联字段
+     */
     pk: string = ''
+    /**
+     * 子表关联字段
+     */
     fk?: string = ''
+    /**
+     * 是否级联关联
+     * @description 若为true则表示自动读取该name对应的Relation
+     */
     relation?: boolean | string | Relation = false
+    /**
+     * 附加查询条件
+     * @description 可以为Function或者对象
+     */
     where?: Object | Function = undefined
     constructor(config?: RelationConfiger) {
         if (config) {
@@ -32,12 +56,11 @@ export class RelationConfiger {
     }
 }
 /**
-*
-* @param name
-* @param {boolean} force
-* @returns Relation
-* @constructor
-*/
+ * R调用关系对象
+ * @param ctx 请求体
+ * @param name 对象名称
+ * @param prefix 对象表前缀
+ */
 export function R(ctx: any, name: string, prefix: string = ""): Relation {
     const Relations: any = {};
     if (!_.isObject(Relations[name])) {
@@ -98,9 +121,9 @@ export default class Relation {
 
     /**
      * 可以不通过构造函数来添加属性信息
-     * @param Table
-     * @param Fields
-     * @param PK
+     * @param Table 表名
+     * @param Fields 字段
+     * @param PK 主键
      */
     public config(Table: string, Fields: string[], PK: string) {
         this._table = Table;
@@ -111,11 +134,7 @@ export default class Relation {
     }
     /**
      * 拥有一个
-     * @param name 关系名称
-     * @param Table 表名称
-     * @param Fields 要取的字段范围
-     * @param TableField 子表字段
-     * @param MainField 主表字段
+     * @param {RelationConfiger} config 配置信息
      */
     public hasOne(config: RelationConfiger) {
         if (_.isString(config.name) && config.name.length > 0) {
@@ -132,8 +151,8 @@ export default class Relation {
         }
     }
     /**
-     * 有多个配置
-     * @param config
+     * 有多个配置，一对多关系
+     * @param {RelationConfiger} config 配置
      * @returns {boolean}
      */
     public hasMany(config: RelationConfiger) {
@@ -151,7 +170,7 @@ export default class Relation {
 
     /**
      * 扩展字段配置
-     * @param config
+     * @param {RelationConfiger} config
      * @returns {boolean}
      */
     public extend(config: RelationConfiger) {
@@ -162,7 +181,7 @@ export default class Relation {
     }
 
     /**
-     *
+     * 扩展关系
      * @returns {any}
      * @constructor
      */
@@ -171,8 +190,8 @@ export default class Relation {
     }
 
     /**
-     *
-     * @param config
+     * 
+     * @param {RelationConfiger} config
      * @constructor
      */
     set Extend(config: RelationConfiger | any) {
@@ -180,6 +199,10 @@ export default class Relation {
             this._extend[config.name] = new RelationConfiger(config)
         }
     }
+    /**
+     * 函数判定和执行
+     * @param w 
+     */
     public eval(w: any) {
         if (w instanceof Function) {
             return w.apply(this, [this._ctx]);
@@ -194,8 +217,8 @@ export default class Relation {
     //     return this._fields;
     // }
     /**
-     * 获取对象
-     * @param {Array<Number>} PKValues
+     * 获取对象，对象化处理
+     * @param {Array<Number>} PKValues 主键值
      * @returns {any}
      */
     public async objects(PKValues: Array<Number>) {
@@ -323,11 +346,18 @@ export default class Relation {
         })
         return a
     }
+    /**
+     * Where查询条件设定
+     * @param where 
+     */
     public where(where: any) {
         this._model.where(where)
         return this;
     }
-
+    /**
+     * 自定义加载db配置文件
+     * @param DbConfig 
+     */
     public load(DbConfig: any | string = null, ) {
         var conf = {};
         if (DbConfig instanceof String) {
@@ -338,10 +368,19 @@ export default class Relation {
         }
 
     }
+    /**
+     * 设定查询字段范围
+     * @param {string[]} fields
+     * @returns {this}
+     */
     public fields(fields: string[]) {
         this._fields = fields;
         return this;
     }
+    /**
+     * 查询并计数
+     * @returns {rows:any[],count:number}
+     */
     public async selectAndCount() {
         let d = await this._model.fields([this._pk]).selectAndCount()
         if (d.rows.length == 0) {
@@ -350,6 +389,11 @@ export default class Relation {
         var PKs: any = array_columns(d.rows, this._pk);
         return { rows: await this.objects(PKs), count: d.count }
     }
+    /**
+     * 排序规则
+     * @param {string} order
+     * @returns {this} 
+     */
     public order(order: string) {
         this._model.order(order)
         return this;
