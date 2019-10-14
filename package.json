@@ -1,6 +1,6 @@
 {
   "name": "@ctsy/relation",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,13 +26,12 @@
   },
   "homepage": "https://github.com/YanCastle/castle-relation#readme",
   "dependencies": {
-    "@ctsy/model": "~1.0.21",
-    "castle-function": "~1.0.1",
-    "lodash": "^4.17.11",
-    "sequelize": "^4.43.0"
+    "@ctsy/model": "^1.0",
+    "castle-function": "^1.0",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.119",
-    "@types/sequelize": "^4.27.47"
+    "@types/lodash": "^4.14",
+    "@types/sequelize": "^4.27"
   }
 }
