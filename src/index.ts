@@ -408,7 +408,7 @@ export default class Relation {
         return this;
     }
     public async add(data: Object) {
-        return await this._model.add(data).then(d => {
+        return await this._model.add(data).then((d: any) => {
             if (_.isObject(d) && d[this._pk] > 0) {
                 return this.objects([d[this._pk]]).then(p => {
                     return p[0];
