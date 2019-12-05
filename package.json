@@ -27,7 +27,7 @@
   "dependencies": {
     "@ctsy/model": "^2.0.0",
     "castle-function": "^1.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.13"
   },
   "devDependencies": {
     "@types/lodash": "^4.14"
