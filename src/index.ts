@@ -305,7 +305,10 @@ export default class Relation {
                 })
                 _.forOwn(many, (d: any, f) => {
                     let s = _.filter(d.values, { [d.config.fk]: datae[k][d.config.pk] });
-                    datae[k][f] = s.length > 0 ? s : []
+                    datae[k][f] = s.length > 0 ? s.map((v) => {
+                        delete v[d.config.pk]
+                        return v;
+                    }) : []
                 })
                 _.forOwn(extend, (d: any, f) => {
                     //TODO 检查所查询数据不存在的时候追加空数据
