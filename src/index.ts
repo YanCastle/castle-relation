@@ -304,10 +304,12 @@ export default class Relation {
                     datae[k][f] = s.length > 0 ? s[0] : {}
                 })
                 _.forOwn(many, (d: any, f) => {
+                    let split = d.config.fields instanceof Array ? d.config.fields : d.config.fields.split(',');
+                    let single = split.length == 2, sfiled = split[1];
                     let s = _.filter(d.values, { [d.config.fk]: datae[k][d.config.pk] });
                     datae[k][f] = s.length > 0 ? s.map((v) => {
                         delete v[d.config.pk]
-                        return v;
+                        return single ? v[sfiled] : v;
                     }) : []
                 })
                 _.forOwn(extend, (d: any, f) => {
