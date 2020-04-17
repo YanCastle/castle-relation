@@ -1,12 +1,13 @@
 {
   "name": "@ctsy/relation",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*.js",
     "dist/**/*.d.ts",
+    "yarn.lock",
     "README.md"
   ],
   "scripts": {
@@ -30,6 +31,8 @@
     "lodash": "*"
   },
   "devDependencies": {
+    "@types/validator": "*",
+    "@types/bluebird": "*",
     "@types/lodash": "*"
   }
 }

@@ -37,6 +37,8 @@ export class RelationConfiger {
      * @description 可以为Function或者对象
      */
     where?: Object | Function = undefined
+
+    filter?: Function | boolean = true;
     constructor(config?: RelationConfiger) {
         if (config) {
             if (config.name) this.name = config.name
@@ -52,6 +54,9 @@ export class RelationConfiger {
             this.fk = config.fk ? config.fk : config.pk
             this.relation = config.relation ? config.relation : false
             this.where = config.where ? config.where : undefined
+            if (this.filter) {
+                this.filter = config.filter;
+            }
         }
     }
 }
@@ -233,8 +238,14 @@ export default class Relation {
                 _.forOwn(this.One, (v, k) => {
                     if (v instanceof Function) {
                         try {
-                            v = v(data)
+                            v = v(data, this._ctx)
                         } catch (error) {
+                        }
+                    }
+                    if (!v) { return; }
+                    if (v.filter instanceof Function) {
+                        if (!v.filter(data, this._ctx)) {
+                            return;
                         }
                     }
                     if (v.relation instanceof Relation) {
@@ -250,9 +261,14 @@ export default class Relation {
                 _.forOwn(this.Many, (v, k) => {
                     if (v instanceof Function) {
                         try {
-                            v = v(data)
+                            v = v(data, this._ctx)
                         } catch (error) {
-
+                        }
+                    }
+                    if (!v) { return; }
+                    if (v.filter instanceof Function) {
+                        if (!v.filter(data, this._ctx)) {
+                            return;
                         }
                     }
                     if (v.relation instanceof Relation) {
@@ -268,9 +284,14 @@ export default class Relation {
                 _.forOwn(this.Extend, (v, k) => {
                     if (v instanceof Function) {
                         try {
-                            v = v(data)
+                            v = v(data, this._ctx)
                         } catch (error) {
-
+                        }
+                    }
+                    if (!v) { return; }
+                    if (v.filter instanceof Function) {
+                        if (!v.filter(data, this._ctx)) {
+                            return;
                         }
                     }
                     if (v.relation instanceof Relation) {
@@ -414,7 +435,7 @@ export default class Relation {
     }
     public async add(data: Object) {
         return await this._model.add(data).then((d: any) => {
-            if (_.isObject(d) && d[this._pk] > 0) {
+            if ('object' == typeof d && d[this._pk] > 0) {
                 return this.objects([d[this._pk]]).then(p => {
                     return p[0];
                 })
