@@ -224,9 +224,10 @@ export default class Relation {
     /**
      * 获取对象，对象化处理
      * @param {Array<Number>} PKValues 主键值
-     * @returns {any}
+     * @param {any} Conf 读取配置
+     * @returns {any[]}
      */
-    public async objects(PKValues: Array<Number>) {
+    public async objects(PKValues: Array<Number>, Conf?: any): Promise<any[]> {
         if (PKValues instanceof Array) {
             let data = await this._model.fields(this._fields).where({
                 [this._pk]: { 'in': PKValues }
@@ -384,7 +385,7 @@ export default class Relation {
      * 自定义加载db配置文件
      * @param DbConfig 
      */
-    public load(DbConfig: any | string = null, ) {
+    public load(DbConfig: any | string = null,) {
         var conf = {};
         if (DbConfig instanceof String) {
             //从定义目录加载
