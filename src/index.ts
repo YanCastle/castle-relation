@@ -252,7 +252,7 @@ export default class Relation {
                     if (v.relation instanceof Relation) {
                         Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else if ('string' == typeof v.relation || v.relation === true) {
-                        let r = new Relation(this._ctx, v.relation, '', '', this.prefix);
+                        let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
                         if (r instanceof Relation)
                             Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                         // Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
@@ -276,7 +276,7 @@ export default class Relation {
                     if (v.relation instanceof Relation) {
                         Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else if ('string' == typeof v.relation || v.relation === true) {
-                        let r = new Relation(this._ctx, v.relation, '', '', this.prefix);
+                        let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
                         if (r instanceof Relation)
                             Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                         // Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
@@ -300,7 +300,7 @@ export default class Relation {
                     if (v.relation instanceof Relation) {
                         Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                     } else if ('string' == typeof v.relation || v.relation === true) {
-                        let r = new Relation(this._ctx, v.relation, '', '', this.prefix);
+                        let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
                         if (r instanceof Relation)
                             Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
                         // Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
