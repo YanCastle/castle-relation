@@ -87,14 +87,14 @@ export function R(ctx: any, name: string, prefix: string = ""): Relation {
 /**
  * 关系对象
  */
-export default class Relation {
+export default class Relation extends Model {
     protected _one: { [index: string]: RelationConfiger } = {};
     protected _many: { [index: string]: RelationConfiger } = {};
     protected _extend: { [index: string]: RelationConfiger } = {};
     protected _table = "";
     protected _pk = "";
-    protected _fields: Array<string> = [];
-    protected _model: Model;
+    protected __fields: Array<string> = [];
+    protected __model: Model;
     protected _controller: any;
     protected _foreach: any = [];
     protected _ctx: any = {};
@@ -106,6 +106,7 @@ export default class Relation {
      * @param PK 主键
      */
     public constructor(ctx: any, Table: string, Fields: string | Array<string> = "", PK = "", prefix: string = "") {
+        super(ctx, Table, prefix)
         this._table = Table;
         this._ctx = ctx;
         let _fields = [];
@@ -118,25 +119,13 @@ export default class Relation {
         if (PK.length === 0) {
             PK = this._ctx.config.getDbTablePK(Table)
         }
-        this._fields = _fields;
+        this.__fields = _fields;
         this._pk = PK;
-        this._model = M(ctx, Table, prefix);
+        this.__model = this;
         this.prefix = prefix;
     }
 
-    /**
-     * 可以不通过构造函数来添加属性信息
-     * @param Table 表名
-     * @param Fields 字段
-     * @param PK 主键
-     */
-    public config(Table: string, Fields: string[], PK: string) {
-        this._table = Table;
-        this._fields = Fields;
-        this._pk = PK;
-        if (Table)
-            this._model = new Model(this._ctx, Table);
-    }
+
     /**
      * 拥有一个
      * @param {RelationConfiger} config 配置信息
@@ -229,7 +218,7 @@ export default class Relation {
      */
     public async objects(PKValues: Array<Number>, Conf?: any): Promise<any[]> {
         if (PKValues instanceof Array) {
-            let data = await this._model.fields(this._fields).where({
+            let data = await this.fields(this.__fields).where({
                 [this._pk]: { 'in': PKValues }
             }).select()
             //开始循环属性配置并生成相关。。
@@ -381,7 +370,7 @@ export default class Relation {
      * @param where 
      */
     public where(where: any) {
-        this._model.where(where)
+        this.where(where)
         return this;
     }
     /**
@@ -404,17 +393,17 @@ export default class Relation {
      * @returns {this}
      */
     public fields(fields: string[]) {
-        this._fields = fields;
+        this.__fields = fields;
         return this;
     }
     /**
      * 查询并计数
      * @returns {rows:any[],count:number}
      */
-    public async selectAndCount() {
-        let d = await this._model.fields([this._pk]).selectAndCount()
+    public async selectAndCount(): Promise<{ rows: any[], count: number }> {
+        let d = await this.fields([this._pk]).selectAndCount()
         if (d.rows.length == 0) {
-            return [[], 0];
+            return { rows: [], count: 0 };
         }
         var PKs: any = array_columns(d.rows, this._pk);
         return { rows: await this.objects(PKs), count: d.count }
@@ -425,20 +414,16 @@ export default class Relation {
      * @returns {this} 
      */
     public order(order: string) {
-        this._model.order(order)
+        this.order(order)
         return this;
     }
-    public async save(data: Object) {
-        return await this._model.save(data).then(c => {
-            return c > -1;
-        })
-    }
+
     public page(page: number, number: number) {
-        this._model.page(page, number)
+        this.page(page, number)
         return this;
     }
-    public async add(data: Object) {
-        return await this._model.add(data).then((d: any) => {
+    public async add(data: Object): Promise<any> {
+        return await this.add(data).then((d: any) => {
             if ('object' == typeof d && d[this._pk] > 0) {
                 return this.objects([d[this._pk]]).then(p => {
                     return p[0];
@@ -448,11 +433,8 @@ export default class Relation {
             }
         })
     }
-    public async del() {
-        return await this._model.del();
-    }
-    public async select() {
-        return await this._model.fields([this._pk]).select().then(d => {
+    public async select(): Promise<any[]> {
+        return await this.fields([this._pk]).select().then((d: any) => {
             if (d instanceof Array && d.length > 0) {
                 var PKs: any = array_columns(d, this._pk);
                 return this.objects(PKs);
@@ -466,7 +448,7 @@ export default class Relation {
      * 查询一个
      */
     public async find() {
-        return await this._model.getFields(this._pk).then(d => {
+        return await this.getFields(this._pk).then(d => {
             if (_.isNumber(d) && d > 0) {
                 return this.objects([d]).then(data => {
                     return data instanceof Array && data.length > 0 ? data[0] : {}
