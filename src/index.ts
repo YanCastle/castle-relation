@@ -218,9 +218,10 @@ export default class Relation extends Model {
      */
     public async objects(PKValues: Array<Number>, Conf?: any): Promise<any[]> {
         if (PKValues instanceof Array) {
-            let data = await this.fields(this.__fields).where({
+            this.fields(this.__fields).where({
                 [this._pk]: { 'in': PKValues }
-            }).select()
+            })
+            let data = await super.select()
             //开始循环属性配置并生成相关。。
             let Qs: any = [data];
             if (data instanceof Array) {
@@ -354,7 +355,7 @@ export default class Relation extends Model {
         })
     }
     public async select(): Promise<any[]> {
-        return await this.fields([this._pk]).select().then((d: any) => {
+        return await super.fields([this._pk]).select().then((d: any) => {
             if (d instanceof Array && d.length > 0) {
                 var PKs: any = array_columns(d, this._pk);
                 return this.objects(PKs);
