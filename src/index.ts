@@ -210,6 +210,8 @@ export default class Relation extends Model {
     // get Fields(){
     //     return this._fields;
     // }
+
+    // protected obj
     /**
      * 获取对象，对象化处理
      * @param {Array<Number>} PKValues 主键值
@@ -224,83 +226,45 @@ export default class Relation extends Model {
             let data = await super.select()
             //开始循环属性配置并生成相关。。
             let Qs: any = [data];
+
+            let obj = (v: any) => {
+                if (v instanceof Function) {
+                    try {
+                        v = v(data, this._ctx)
+                    } catch (error) {
+                    }
+                }
+                if (!v) { return; }
+                if (v.filter instanceof Function) {
+                    if (!v.filter(data, this._ctx)) {
+                        return;
+                    }
+                }
+                if (v.relation instanceof Relation) {
+                    Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
+                } else if ('string' == typeof v.relation || v.relation === true) {
+                    let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
+                    if (r instanceof Relation)
+                        Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
+                } else if (!_.isString(v.relation)) {
+                    Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
+                } else { }
+            }
+
             if (data instanceof Array) {
-                // data = JSON.parse(JSON.stringify(data))
                 _.forOwn(this.One, (v, k) => {
-                    if (v instanceof Function) {
-                        try {
-                            v = v(data, this._ctx)
-                        } catch (error) {
-                        }
-                    }
-                    if (!v) { return; }
-                    if (v.filter instanceof Function) {
-                        if (!v.filter(data, this._ctx)) {
-                            return;
-                        }
-                    }
-                    if (v.relation instanceof Relation) {
-                        Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else if ('string' == typeof v.relation || v.relation === true) {
-                        let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
-                        if (r instanceof Relation)
-                            Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                        // Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else if (!_.isString(v.relation)) {
-                        Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else { }
+                    obj(v)
                 })
                 _.forOwn(this.Many, (v, k) => {
-                    if (v instanceof Function) {
-                        try {
-                            v = v(data, this._ctx)
-                        } catch (error) {
-                        }
-                    }
-                    if (!v) { return; }
-                    if (v.filter instanceof Function) {
-                        if (!v.filter(data, this._ctx)) {
-                            return;
-                        }
-                    }
-                    if (v.relation instanceof Relation) {
-                        Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else if ('string' == typeof v.relation || v.relation === true) {
-                        let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
-                        if (r instanceof Relation)
-                            Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                        // Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else if (!_.isString(v.relation)) {
-                        Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else { }
+                    obj(v)
                 })
                 _.forOwn(this.Extend, (v, k) => {
-                    if (v instanceof Function) {
-                        try {
-                            v = v(data, this._ctx)
-                        } catch (error) {
-                        }
-                    }
-                    if (!v) { return; }
-                    if (v.filter instanceof Function) {
-                        if (!v.filter(data, this._ctx)) {
-                            return;
-                        }
-                    }
-                    if (v.relation instanceof Relation) {
-                        Qs.push(v.relation.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else if ('string' == typeof v.relation || v.relation === true) {
-                        let r = R(this._ctx, v.relation === true ? v.table : v.relation, this.prefix);
-                        if (r instanceof Relation)
-                            Qs.push(r.fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                        // Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else if (!_.isString(v.relation)) {
-                        Qs.push(new Model(this._ctx, v.table, this.prefix).fields(this.eval(v.fields)).where(this.eval(v.where)).where({ [v.fk ? v.fk : v.pk]: { 'in': array_columns(data, v.pk, true) } }).select())
-                    } else { }
+                    obj(v)
                 })
             }
             let result = await Promise.all(Qs)
             let i = 1, datae: any = result[0], one: any = {}, many: any = {}, extend: any = {}, config = {};
+
             _.forOwn(this._one, (v, k) => {
                 one[v.name] = { values: result[i], config: v };
                 i++;
@@ -313,6 +277,7 @@ export default class Relation extends Model {
                 extend[v.name] = { values: result[i], config: v };
                 i++;
             })
+
             _.forOwn(datae, (v, k) => {
                 _.forOwn(one, (d: any, f) => {
                     let s = _.filter(d.values, { [d.config.fk]: datae[k][d.config.pk] });
@@ -355,7 +320,8 @@ export default class Relation extends Model {
         })
     }
     public async select(): Promise<any[]> {
-        return await super.fields([this._pk]).select().then((d: any) => {
+        super.fields([this._pk])
+        return await super.select().then((d: any) => {
             if (d instanceof Array && d.length > 0) {
                 var PKs: any = array_columns(d, this._pk);
                 return this.objects(PKs);
@@ -364,7 +330,13 @@ export default class Relation extends Model {
             }
         })
     }
-
+    async selectAndCount() {
+        let rs = await super.selectAndCount();
+        if (rs.rows.length > 0) {
+            rs.rows = await this.objects(<any>array_columns(rs.rows, this._pk))
+        }
+        return rs;
+    }
     /**
      * 查询一个
      */
