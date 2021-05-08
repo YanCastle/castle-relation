@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@ctsy/hook/-/hook-0.0.7.tgz#2f897b5c3a64294d437aaea7f81631250a7b0e39"
   integrity sha512-1q1Qthgtcy6hoaol63SEibJQ4wp19DmZ50hw44/YYVw0Y6HV20BCPnMJLR/eZZ32MvBpaV3IrIYODVRR6wy5kw==
 
-"@ctsy/model@^2.0.25":
-  version "2.0.25"
-  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-2.0.25.tgz#f861e0b4359a23e33da2ec7ad0e347ba905017d7"
-  integrity sha512-HepINVhdpep1dQ6Z1wP95auRSpsGiOzOgAHKFjRLxZTWs9O6kexZnsLoeIiPmxzxDJ7QlIuvTHoyqC3P74YLnQ==
+"@ctsy/model@^2":
+  version "2.0.40"
+  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-2.0.40.tgz#f454758f7d281491041c44927c4dd5a4cc58078e"
+  integrity sha512-pHX+b+UDqW3oerXVittQHA0dyaAYBiD9hQ5YvnjkCFqv+7bkfa5tubA73Q4KnuGcbNqQPAoUbrSHnNqh5SJtWA==
   dependencies:
     "@ctsy/hook" "*"
     lodash "~4"
@@ -91,9 +91,9 @@ is-property@^1.0.2:
   integrity sha1-V/4cTkhHTt1lsJkR8msc1Ald2oQ=
 
 lodash@*, lodash@^4.17.15, lodash@~4:
-  version "4.17.20"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
-  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 long@^4.0.0:
   version "4.0.0"
