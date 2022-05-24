@@ -1,6 +1,6 @@
 import Model, { M } from '@ctsy/model'
 import * as _ from 'lodash'
-import { array_columns } from 'castle-function';
+import { array_columns } from '@ctsy/common';
 import { resolve, join } from 'path';
 /**
  * 关系配置

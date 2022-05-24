@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/YanCastle/castle-relation#readme",
   "dependencies": {
+    "@ctsy/common": "^1",
     "@ctsy/model": "^2",
-    "castle-function": "*",
     "lodash": "*"
   },
   "devDependencies": {
