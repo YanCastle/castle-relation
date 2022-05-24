@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@ctsy/common@^1.0.12":
+"@ctsy/common@^1":
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/@ctsy/common/-/common-1.0.12.tgz#9186f1c106ba3a42ce35bc500c4163a822bdeccc"
   integrity sha512-huXwcvIDbbei7iKl78cGgJpnadm9aG/KLgMqvHW6eTb/o06q3gzDx/913ZxXjjM0yXCsTc3RABfvNUEzB5+HgQ==
@@ -16,9 +16,9 @@
   integrity sha512-1q1Qthgtcy6hoaol63SEibJQ4wp19DmZ50hw44/YYVw0Y6HV20BCPnMJLR/eZZ32MvBpaV3IrIYODVRR6wy5kw==
 
 "@ctsy/model@^2":
-  version "2.0.47"
-  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-2.0.47.tgz#a4b79645a6f6b4c6bc78668ea8138619a8810475"
-  integrity sha512-z8lLZSZBZl9IrPfnSHpvoj/8c0aopPoesvYj1+EJ60+19uA6Gxx45Lu/r3qK6lOPHnRvHLncHYoxihCw0FzhRQ==
+  version "2.0.45"
+  resolved "https://registry.yarnpkg.com/@ctsy/model/-/model-2.0.45.tgz#b3482e4165f808503da0cc7b5e18c635b46a9cae"
+  integrity sha512-ws3ik+/lHH3YPbVLc2XTB+wn0MwiIGGSjd9bmbFFbmN5wcN+KojK2sB13sUBf2QXMVUmpFJR5vMEu6XEBrXwkA==
   dependencies:
     "@ctsy/hook" "*"
     lodash "*"

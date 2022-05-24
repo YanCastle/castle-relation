@@ -309,7 +309,7 @@ export default class Relation extends Model {
         }
     }
     public async add(data: Object): Promise<any> {
-        return await this.add(data).then((d: any) => {
+        return await super.add(data).then((d: any) => {
             if ('object' == typeof d && d[this._pk] > 0) {
                 return this.objects([d[this._pk]]).then(p => {
                     return p[0];
